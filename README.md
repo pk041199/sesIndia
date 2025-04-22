@@ -169,4 +169,3 @@ MIT
 ## Contributing
 
 Issues and pull requests are welcome at [https://github.com/pk041199/sesIndia](https://github.com/pk041199/sesIndia).
- 

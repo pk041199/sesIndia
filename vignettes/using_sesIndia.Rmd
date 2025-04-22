@@ -1,0 +1,220 @@
+---
+title: "Using sesIndia"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using sesIndia}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE
+)
+library(knitr)
+```
+
+## Introduction
+
+The `sesIndia` package facilitates socioeconomic status (SES) calculations in India using the modified B.G. Prasad and modified Kuppuswamy scales, updated for January 2025 with CPI-IW = 143.2. It supports numeric-coded inputs for education (1-7) and occupation (1-10), mapped to Kuppuswamy scores. This vignette demonstrates usage with a sample dataset and provides a codebook.
+
+## Installation
+
+```r
+# Install from CRAN (once published)
+# install.packages("sesIndia")
+
+# Install from GitHub
+devtools::install_github("yourusername/sesIndia")
+library(sesIndia)
+```
+
+## Obtaining CPI-IW Manually
+
+The package requires a Consumer Price Index for Industrial Workers (CPI-IW) value to adjust income ranges. For January 2025, use `cpi_iw = 143.2`. To find the latest CPI-IW:
+
+1. Visit the [Labour Bureau Centre Index page](https://www.labourbureau.gov.in/centre-index).
+2. Locate the table listing CPI-IW values by month and year.
+3. Identify the most recent CPI-IW value for All-India (General Index).
+4. Note the value (e.g., 143.2 for Jan 2025) and use it in the `cpi_iw` parameter.
+
+**Note**: Always verify the CPI-IW value for your analysis period, as it affects income range calculations.
+
+## Input Data Format
+
+Input data must be a data frame or CSV/Excel file with:
+
+- **income**: Monthly family income in INR (numeric, e.g., 5000).
+- **education**: Education level (numeric code, 1-7).
+- **occupation**: Occupation type (numeric code, 1-10).
+
+### Codebook
+
+**Education Codes (Kuppuswamy Scores)**:
+
+| Code | Description | Score |
+| --- | --- | --- |
+| 1 | Illiterate | 1 |
+| 2 | Primary school | 2 |
+| 3 | Middle school | 3 |
+| 4 | High school | 4 |
+| 5 | Intermediate or diploma | 5 |
+| 6 | Graduate | 6 |
+| 7 | Professional degree | 7 |
+
+**Occupation Codes (Mapped to Kuppuswamy Scores)**:
+
+| Code | Description | Score |
+| --- | --- | --- |
+| 1 | Unemployed | 1 |
+| 2 | Elementary occupation | 2 |
+| 3 | Plant and machine operators and assemblers | 3 |
+| 4 | Craft and related trade workers | 4 |
+| 5 | Skilled agricultural and fishery workers | 4 |
+| 6 | Skilled worker, shop and market sales workers | 5 |
+| 7 | Clerk | 5 |
+| 8 | Technicians/associate professionals | 6 |
+| 9 | Professional | 7 |
+| 10 | Legislators, senior officials, managers | 7 |
+
+**Income Ranges (Kuppuswamy, Jan 2025)**:
+
+| Income Range (INR/month) | Score |
+| --- | --- |
+| ≥60,125 | 12 |
+| 30,063–60,095 | 10 |
+| 22,548–30,030 | 6 |
+| 15,032–22,526 | 4 |
+| 9,019–15,006 | 3 |
+| 3,038–8,998 | 2 |
+| ≤3,006 | 1 |
+
+**Income Ranges (B.G. Prasad, Jan 2025)**:
+
+| Class | Income Range (INR/month) |
+| --- | --- |
+| I-upper | ≥8,592 |
+| II-upper middle | 4,296–8,591 |
+| III-lower middle | 2,578–4,295 |
+| IV-lower middle | 1,289–2,577 |
+| V-lower | <1,289 |
+
+**Kuppuswamy Classification**:
+
+| Class | Total Score |
+| --- | --- |
+| Upper | 26–29 |
+| Upper middle | 16–25 |
+| Lower middle | 11–15 |
+| Upper lower | 5–10 |
+| Lower | <5 |
+
+**Example CSV**:
+
+```csv
+income,education,occupation
+5000,4,6
+35000,6,9
+3000,2,2
+65000,7,10
+1000,1,1
+```
+
+## Usage
+
+### Validating Input Data
+
+Before calculating SES, validate your data to ensure correct column names and valid codes using `validate_ses_data()`. This function checks for:
+
+- Presence of specified columns (income, education, occupation).
+- Numeric, non-negative, non-NA income values.
+- Education codes (1-7) and occupation codes (1-10) if provided.
+
+**Example**:
+
+```r
+data(sample_ses_data, package = "sesIndia")
+validate_ses_data(sample_ses_data, income_column = "income", education_column = "education", occupation_column = "occupation")
+```
+
+This returns no output if the data is valid. If issues are found, an error message will specify the problem, e.g., "Education column contains invalid codes. Use 1-7 (see vignette for codebook)."
+
+### Updating B.G. Prasad Scale
+
+```r
+bg_updated <- update_bg_prasad(cpi_iw = 143.2)
+kable(bg_updated, caption = "Updated B.G. Prasad Scale (Jan 2025)", align = c("l", "r", "r"))
+```
+
+### Updating Kuppuswamy Scale
+
+```r
+kup_updated <- update_kuppuswamy(cpi_iw = 143.2)
+kable(kup_updated, caption = "Updated Kuppuswamy Scale (Jan 2025)", align = c("l", "r", "r", "r"))
+```
+
+### Calculating SES with a Dataset
+
+#### Load Sample Data
+
+```r
+data(sample_ses_data, package = "sesIndia")
+kable(sample_ses_data, caption = "Sample SES Data", align = c("r", "r", "r"))
+```
+
+#### B.G. Prasad Scale
+
+```r
+ses_bg <- calculate_ses_bg(
+  sample_ses_data,
+  income_column = "income",
+  cpi_iw = 143.2
+)
+kable(ses_bg, caption = "SES Classification (B.G. Prasad)", align = c("r", "r", "r", "l"))
+```
+
+#### Kuppuswamy Scale
+
+```r
+ses_kup <- calculate_ses_kuppuswamy(
+  sample_ses_data,
+  income_column = "income",
+  education_column = "education",
+  occupation_column = "occupation",
+  cpi_iw = 143.2
+)
+kable(ses_kup, caption = "SES Classification (Kuppuswamy)", align = c("r", "r", "r", "r", "r", "r", "r", "l"))
+```
+
+#### File Input
+
+```r
+ses_kup_file <- calculate_ses_kuppuswamy(
+  "data.csv",
+  income_column = "income",
+  education_column = "education",
+  occupation_column = "occupation",
+  cpi_iw = 143.2
+)
+kable(ses_kup_file, caption = "SES Classification from CSV (Kuppuswamy)", align = c("r", "r", "r", "r", "r", "r", "r", "l"))
+```
+
+## Notes
+
+- **Base Year**: Default is 2016 (CPI-IW = 261).
+- **CPI-IW**: Use `cpi_iw = 143.2` for Jan 2025 or obtain the latest value manually from the Labour Bureau website.
+- **Input Validation**: Use `validate_ses_data()` to check data format.
+- **File Formats**: CSV and Excel (.xlsx) supported.
+- **Error Handling**: Invalid codes or NA values trigger errors.
+
+## Troubleshooting
+
+- **CPI-IW**: Obtain the latest CPI-IW manually from https://www.labourbureau.gov.in/centre-index if needed.
+- **Invalid Codes**: Ensure education (1-7) and occupation (1-10) codes are valid.
+- **NA Values**: Income must be non-negative and non-NA.
+
+For details, see `?sesIndia` or the GitHub repository.
+
+**Reference**: Jabeen R, Karthika P. Updated socioeconomic classification: revised modified B.G. Prasad and modified Kuppuswamy scales for January 2025. Int J Community Med Public Health. 2025;12:xxx-xx.

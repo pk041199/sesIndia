@@ -1,0 +1,21 @@
+Package: sesIndia
+Title: Socioeconomic Status (SES) Calculations for India
+Version: 0.1.0
+Authors@R: person("Your", "Name", email = "your.email@example.com", role = c("aut", "cre"))
+Description: Calculates socioeconomic status (SES) using the modified B.G. Prasad and Kuppuswamy scales, adjusted for inflation via CPI-IW. Supports education (1-7) and occupation (1-10) codes, with income ranges updated for January 2025.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends:
+    R (>= 3.5.0),
+    dplyr,
+    tibble
+Imports:
+    readxl,
+    tools,
+    utils
+Suggests:
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+RoxygenNote: 7.3.2

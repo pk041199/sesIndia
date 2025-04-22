@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Using sesIndia</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Using sesIndia</h1>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>The <code>sesIndia</code> package facilitates socioeconomic status
+(SES) calculations in India using the modified B.G. Prasad and modified
+Kuppuswamy scales, updated for January 2025 with CPI-IW = 143.2. It
+supports numeric-coded inputs for education (1-7) and occupation (1-10),
+mapped to Kuppuswamy scores. This vignette demonstrates usage with a
+sample dataset and provides a codebook.</p>
+</div>
+<div id="installation" class="section level2">
+<h2>Installation</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># Install from CRAN (once published)</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co"># install.packages(&quot;sesIndia&quot;)</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co"># Install from GitHub</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;yourusername/sesIndia&quot;</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">library</span>(sesIndia)</span></code></pre></div>
+</div>
+<div id="obtaining-cpi-iw-manually" class="section level2">
+<h2>Obtaining CPI-IW Manually</h2>
+<p>The package requires a Consumer Price Index for Industrial Workers
+(CPI-IW) value to adjust income ranges. For January 2025, use
+<code>cpi_iw = 143.2</code>. To find the latest CPI-IW:</p>
+<ol style="list-style-type: decimal">
+<li>Visit the <a href="https://www.labourbureau.gov.in/centre-index">Labour Bureau Centre
+Index page</a>.</li>
+<li>Locate the table listing CPI-IW values by month and year.</li>
+<li>Identify the most recent CPI-IW value for All-India (General
+Index).</li>
+<li>Note the value (e.g., 143.2 for Jan 2025) and use it in the
+<code>cpi_iw</code> parameter.</li>
+</ol>
+<p><strong>Note</strong>: Always verify the CPI-IW value for your
+analysis period, as it affects income range calculations.</p>
+</div>
+<div id="input-data-format" class="section level2">
+<h2>Input Data Format</h2>
+<p>Input data must be a data frame or CSV/Excel file with:</p>
+<ul>
+<li><strong>income</strong>: Monthly family income in INR (numeric,
+e.g., 5000).</li>
+<li><strong>education</strong>: Education level (numeric code,
+1-7).</li>
+<li><strong>occupation</strong>: Occupation type (numeric code,
+1-10).</li>
+</ul>
+<div id="codebook" class="section level3">
+<h3>Codebook</h3>
+<p><strong>Education Codes (Kuppuswamy Scores)</strong>:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Code</th>
+<th>Description</th>
+<th>Score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Illiterate</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Primary school</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Middle school</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>High school</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Intermediate or diploma</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Graduate</td>
+<td>6</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Professional degree</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Occupation Codes (Mapped to Kuppuswamy Scores)</strong>:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Code</th>
+<th>Description</th>
+<th>Score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Unemployed</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Elementary occupation</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Plant and machine operators and assemblers</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Craft and related trade workers</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Skilled agricultural and fishery workers</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Skilled worker, shop and market sales workers</td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Clerk</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>Technicians/associate professionals</td>
+<td>6</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>Professional</td>
+<td>7</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>Legislators, senior officials, managers</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Income Ranges (Kuppuswamy, Jan 2025)</strong>:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Income Range (INR/month)</th>
+<th>Score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>≥60,125</td>
+<td>12</td>
+</tr>
+<tr class="even">
+<td>30,063–60,095</td>
+<td>10</td>
+</tr>
+<tr class="odd">
+<td>22,548–30,030</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td>15,032–22,526</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>9,019–15,006</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td>3,038–8,998</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td>≤3,006</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Income Ranges (B.G. Prasad, Jan 2025)</strong>:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Class</th>
+<th>Income Range (INR/month)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>I-upper</td>
+<td>≥8,592</td>
+</tr>
+<tr class="even">
+<td>II-upper middle</td>
+<td>4,296–8,591</td>
+</tr>
+<tr class="odd">
+<td>III-lower middle</td>
+<td>2,578–4,295</td>
+</tr>
+<tr class="even">
+<td>IV-lower middle</td>
+<td>1,289–2,577</td>
+</tr>
+<tr class="odd">
+<td>V-lower</td>
+<td>&lt;1,289</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Kuppuswamy Classification</strong>:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Class</th>
+<th>Total Score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Upper</td>
+<td>26–29</td>
+</tr>
+<tr class="even">
+<td>Upper middle</td>
+<td>16–25</td>
+</tr>
+<tr class="odd">
+<td>Lower middle</td>
+<td>11–15</td>
+</tr>
+<tr class="even">
+<td>Upper lower</td>
+<td>5–10</td>
+</tr>
+<tr class="odd">
+<td>Lower</td>
+<td>&lt;5</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example CSV</strong>:</p>
+<pre class="csv"><code>income,education,occupation
+5000,4,6
+35000,6,9
+3000,2,2
+65000,7,10
+1000,1,1</code></pre>
+</div>
+</div>
+<div id="usage" class="section level2">
+<h2>Usage</h2>
+<div id="validating-input-data" class="section level3">
+<h3>Validating Input Data</h3>
+<p>Before calculating SES, validate your data to ensure correct column
+names and valid codes using <code>validate_ses_data()</code>. This
+function checks for:</p>
+<ul>
+<li>Presence of specified columns (income, education, occupation).</li>
+<li>Numeric, non-negative, non-NA income values.</li>
+<li>Education codes (1-7) and occupation codes (1-10) if provided.</li>
+</ul>
+<p><strong>Example</strong>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">data</span>(sample_ses_data, <span class="at">package =</span> <span class="st">&quot;sesIndia&quot;</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">validate_ses_data</span>(sample_ses_data, <span class="at">income_column =</span> <span class="st">&quot;income&quot;</span>, <span class="at">education_column =</span> <span class="st">&quot;education&quot;</span>, <span class="at">occupation_column =</span> <span class="st">&quot;occupation&quot;</span>)</span></code></pre></div>
+<p>This returns no output if the data is valid. If issues are found, an
+error message will specify the problem, e.g., “Education column contains
+invalid codes. Use 1-7 (see vignette for codebook).”</p>
+</div>
+<div id="updating-b.g.-prasad-scale" class="section level3">
+<h3>Updating B.G. Prasad Scale</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>bg_updated <span class="ot">&lt;-</span> <span class="fu">update_bg_prasad</span>(<span class="at">cpi_iw =</span> <span class="fl">143.2</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">kable</span>(bg_updated, <span class="at">caption =</span> <span class="st">&quot;Updated B.G. Prasad Scale (Jan 2025)&quot;</span>, <span class="at">align =</span> <span class="fu">c</span>(<span class="st">&quot;l&quot;</span>, <span class="st">&quot;r&quot;</span>, <span class="st">&quot;r&quot;</span>))</span></code></pre></div>
+</div>
+<div id="updating-kuppuswamy-scale" class="section level3">
+<h3>Updating Kuppuswamy Scale</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>kup_updated <span class="ot">&lt;-</span> <span class="fu">update_kuppuswamy</span>(<span class="at">cpi_iw =</span> <span class="fl">143.2</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">kable</span>(kup_updated, <span class="at">caption =</span> <span class="st">&quot;Updated Kuppuswamy Scale (Jan 2025)&quot;</span>, <span class="at">align =</span> <span class="fu">c</span>(<span class="st">&quot;l&quot;</span>, <span class="st">&quot;r&quot;</span>, <span class="st">&quot;r&quot;</span>, <span class="st">&quot;r&quot;</span>))</span></code></pre></div>
+</div>
+<div id="calculating-ses-with-a-dataset" class="section level3">
+<h3>Calculating SES with a Dataset</h3>
+<div id="load-sample-data" class="section level4">
+<h4>Load Sample Data</h4>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">data</span>(sample_ses_data, <span class="at">package =</span> <span class="st">&quot;sesIndia&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">kable</span>(sample_ses_data, <span class="at">caption =</span> <span class="st">&quot;Sample SES Data&quot;</span>, <span class="at">align =</span> <span class="fu">c</span>(<span class="st">&quot;r&quot;</span>, <span class="st">&quot;r&quot;</span>, <span class="st">&quot;r&quot;</span>))</span></code></pre></div>
+</div>
+<div id="b.g.-prasad-scale" class="section level4">
+<h4>B.G. Prasad Scale</h4>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>ses_bg <span class="ot">&lt;-</span> <span class="fu">calculate_ses_bg</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  sample_ses_data,</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="at">income_column =</span> <span class="st">&quot;income&quot;</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="at">cpi_iw =</span> <span class="fl">143.2</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="fu">kable</span>(ses_bg, <span class="at">caption =</span> <span class="st">&quot;SES Classification (B.G. Prasad)&quot;</span>, <span class="at">align =</span> <span class="fu">c</span>(<span class="st">&quot;r&quot;</span>, <span class="st">&quot;r&quot;</span>, <span class="st">&quot;r&quot;</span>, <span class="st">&quot;l&quot;</span>))</span></code></pre></div>
+</div>
+<div id="kuppuswamy-scale" class="section level4">
+<h4>Kuppuswamy Scale</h4>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>ses_kup <span class="ot">&lt;-</span> <span class="fu">calculate_ses_kuppuswamy</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  sample_ses_data,</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="at">income_column =</span> <span class="st">&quot;income&quot;</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="at">education_column =</span> <span class="st">&quot;education&quot;</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="at">occupation_column =</span> <span class="st">&quot;occupation&quot;</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="at">cpi_iw =</span> <span class="fl">143.2</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>)</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="fu">kable</span>(ses_kup, <span class="at">caption =</span> <span class="st">&quot;SES Classification (Kuppuswamy)&quot;</span>, <span class="at">align =</span> <span class="fu">c</span>(<span class="st">&quot;r&quot;</span>, <span class="st">&quot;r&quot;</span>, <span class="st">&quot;r&quot;</span>, <span class="st">&quot;r&quot;</span>, <span class="st">&quot;r&quot;</span>, <span class="st">&quot;r&quot;</span>, <span class="st">&quot;r&quot;</span>, <span class="st">&quot;l&quot;</span>))</span></code></pre></div>
+</div>
+<div id="file-input" class="section level4">
+<h4>File Input</h4>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>ses_kup_file <span class="ot">&lt;-</span> <span class="fu">calculate_ses_kuppuswamy</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="st">&quot;data.csv&quot;</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="at">income_column =</span> <span class="st">&quot;income&quot;</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="at">education_column =</span> <span class="st">&quot;education&quot;</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="at">occupation_column =</span> <span class="st">&quot;occupation&quot;</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="at">cpi_iw =</span> <span class="fl">143.2</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>)</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="fu">kable</span>(ses_kup_file, <span class="at">caption =</span> <span class="st">&quot;SES Classification from CSV (Kuppuswamy)&quot;</span>, <span class="at">align =</span> <span class="fu">c</span>(<span class="st">&quot;r&quot;</span>, <span class="st">&quot;r&quot;</span>, <span class="st">&quot;r&quot;</span>, <span class="st">&quot;r&quot;</span>, <span class="st">&quot;r&quot;</span>, <span class="st">&quot;r&quot;</span>, <span class="st">&quot;r&quot;</span>, <span class="st">&quot;l&quot;</span>))</span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="notes" class="section level2">
+<h2>Notes</h2>
+<ul>
+<li><strong>Base Year</strong>: Default is 2016 (CPI-IW = 261).</li>
+<li><strong>CPI-IW</strong>: Use <code>cpi_iw = 143.2</code> for Jan
+2025 or obtain the latest value manually from the Labour Bureau
+website.</li>
+<li><strong>Input Validation</strong>: Use
+<code>validate_ses_data()</code> to check data format.</li>
+<li><strong>File Formats</strong>: CSV and Excel (.xlsx) supported.</li>
+<li><strong>Error Handling</strong>: Invalid codes or NA values trigger
+errors.</li>
+</ul>
+</div>
+<div id="troubleshooting" class="section level2">
+<h2>Troubleshooting</h2>
+<ul>
+<li><strong>CPI-IW</strong>: Obtain the latest CPI-IW manually from <a href="https://www.labourbureau.gov.in/centre-index" class="uri">https://www.labourbureau.gov.in/centre-index</a> if
+needed.</li>
+<li><strong>Invalid Codes</strong>: Ensure education (1-7) and
+occupation (1-10) codes are valid.</li>
+<li><strong>NA Values</strong>: Income must be non-negative and
+non-NA.</li>
+</ul>
+<p>For details, see <code>?sesIndia</code> or the GitHub repository.</p>
+<p><strong>Reference</strong>: Jabeen R, Karthika P. Updated
+socioeconomic classification: revised modified B.G. Prasad and modified
+Kuppuswamy scales for January 2025. Int J Community Med Public Health.
+2025;12:xxx-xx.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

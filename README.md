@@ -160,7 +160,7 @@ The package requires a CPI-IW value (e.g., 143.2 for Jan 2025). To obtain it man
 
 - Ensure CPI-IW values are positive and numeric.
 - Education codes must be 1-7, occupation codes 1-10 (see vignette for codebook).
-- The base year is fixed at 2016 (CPI-IW = 261).
+- The base year is fixed at 2016 (CPI-IW = 261) standaised to 100.
 
 ## License
 

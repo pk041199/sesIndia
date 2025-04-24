@@ -158,12 +158,12 @@ calculate_ses_kuppuswamy <- function(data, income_column, education_column, occu
     "2" = 2,  # Elementary occupation
     "3" = 3,  # Plant and machine operators
     "4" = 4,  # Craft and related trade workers
-    "5" = 4,  # Skilled agricultural and fishery workers
-    "6" = 5,  # Skilled worker, shop and market sales
-    "7" = 5,  # Clerk
-    "8" = 6,  # Technicians/associate professionals
-    "9" = 7,  # Professional
-    "10" = 7  # Legislators, senior officials, managers
+    "5" = 5,  # Skilled agricultural and fishery workers
+    "6" = 6,  # Skilled worker, shop and market sales
+    "7" = 7,  # Clerk
+    "8" = 8,  # Technicians/associate professionals
+    "9" = 9,  # Professional
+    "10" = 10  # Legislators, senior officials, managers
   )
   
   # Assign education and occupation scores
@@ -174,7 +174,7 @@ calculate_ses_kuppuswamy <- function(data, income_column, education_column, occu
       total_score = income_score + education_score + occupation_score,
       SES = cut(
         total_score,
-        breaks = c(0, 5, 11, 16, 26, 30),
+        breaks = c(0, 5, 11, 16, 26, 29),
         labels = c("Lower", "Upper lower", "Lower middle", "Upper middle", "Upper"),
         right = FALSE
       )

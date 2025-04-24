@@ -174,7 +174,7 @@ calculate_ses_kuppuswamy <- function(data, income_column, education_column, occu
       total_score = income_score + education_score + occupation_score,
       SES = cut(
         total_score,
-        breaks = c(0, 5, 11, 16, 26, 29),
+        breaks = c(0, 5, 11, 16, 26, 30),
         labels = c("Lower", "Upper lower", "Lower middle", "Upper middle", "Upper"),
         right = FALSE
       )

@@ -72,12 +72,12 @@ Input data must be a data frame or CSV/Excel file with:
 | 2 | Elementary occupation | 2 |
 | 3 | Plant and machine operators and assemblers | 3 |
 | 4 | Craft and related trade workers | 4 |
-| 5 | Skilled agricultural and fishery workers | 4 |
-| 6 | Skilled worker, shop and market sales workers | 5 |
-| 7 | Clerk | 5 |
-| 8 | Technicians/associate professionals | 6 |
-| 9 | Professional | 7 |
-| 10 | Legislators, senior officials, managers | 7 |
+| 5 | Skilled agricultural and fishery workers | 5 |
+| 6 | Skilled worker, shop and market sales workers | 6 |
+| 7 | Clerk | 7 |
+| 8 | Technicians/associate professionals | 8 |
+| 9 | Professional | 9 |
+| 10 | Legislators, senior officials, managers | 10 |
 
 **Income Ranges (Kuppuswamy, Jan 2025)**:
 

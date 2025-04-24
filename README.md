@@ -128,10 +128,10 @@ print(ses_kup)
 # A tibble: 5 × 8
   income education occupation income_score education_score occupation_score total_score SES          
    <dbl>     <dbl>      <dbl>        <dbl>           <dbl>            <dbl>       <dbl> <fct>        
-1   5000         4          6            2               4                6          11 Lower middle 
-2  35000         6          9           10               6                9          23 Upper middle 
+1   5000         4          6            2               4                6          12 Lower middle 
+2  35000         6          9           10               6                9          25 Upper middle 
 3   3000         2          2            1               2                2           5 Upper lower  
-4  65000         7         10           12               7                10          26 Upper        
+4  65000         7         10           12               7                10         29 Upper        
 5   1000         1          1            1               1                1           3 Lower        
 ```
 
